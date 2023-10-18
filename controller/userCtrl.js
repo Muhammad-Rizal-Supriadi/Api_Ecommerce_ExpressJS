@@ -89,4 +89,39 @@ const deleteaUser = asyncHandler(async (req, res) => {
     }
 });
 
-module.exports = {createUser, loginUserCtrl, getallUser, getaUser, deleteaUser, updateaUser};
+const blockUser = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    try{
+        const block = await User.findByIdAndUpdate(
+            id,
+            {
+                isBlocked: true,
+            },
+            {
+                new: true,
+            }
+        );
+        res.json(block);
+    }catch(error){
+        throw new Error(error);
+    }
+});
+const unblockUser = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    try{
+        const unblock = await User.findByIdAndUpdate(
+            id,
+            {
+                isBlocked: false,
+            },
+            {
+                new: true,
+            }
+        );
+        res.json(unblock);
+    }catch(error){
+        throw new Error(error);
+    }
+});
+
+module.exports = {createUser, loginUserCtrl, getallUser, getaUser, deleteaUser, updateaUser, blockUser, unblockUser};
